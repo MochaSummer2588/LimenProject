@@ -219,7 +219,7 @@ try:
             elif stato_idx == 1:
                 print(f"[{ciclo:>4}] 🟡 {stato_txt:20s} | {vitals} | {pbar}")
             elif stato_idx == 2:
-                print(f"[{ciclo:>4}] 🔴 {stato_txt:20s} | {vitals} | {pbar} ⚠ GROUNDING")
+                print(f"[{ciclo:>4}] 🔴 {stato_txt:20s} | {vitals} | {pbar} ⚠ VIBRATING")
             else:
                 print(f"[{ciclo:>4}] 🔵 {stato_txt:20s} | {vitals} | {pbar}")
 
