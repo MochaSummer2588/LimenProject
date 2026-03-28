@@ -226,10 +226,6 @@ Visualizza il loop aptico adattivo su 25 cicli di valutazione — traiettoria HR
 
 ## 👥 Team
 
-Realizzato all'**[Nome Hackathon]** · [Data]
+Realizzato all'**LIMEN TEAM** · [Data]
 
 ---
-
-## 📄 Licenza
-
-Licenza MIT — vedi `LICENSE` per i dettagli.
