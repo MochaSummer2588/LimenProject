@@ -1,0 +1,139 @@
+\documentclass[12pt,a4paper]{article}
+
+% --- Pacchetti di Formattazione ---
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{eurosym} 
+\usepackage{setspace}
+\usepackage{tabularx}
+
+% --- Definizione Colori Branding LIMEN ---
+\definecolor{LimenDeep}{HTML}{0D0D1A}     % Blu Notte
+\definecolor{LimenAccent}{HTML}{A78BFA}   % Viola Lavanda
+\definecolor{LimenSoft}{HTML}{F1F5F9}     % Grigio Ghiaccio
+
+% --- Configurazione Stili ---
+\titleformat{\section}{\large\bfseries\color{LimenDeep}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries\color{LimenDeep}}{\thesubsection}{1em}{}
+\onehalfspacing
+
+\begin{document}
+
+% =========================================================
+% COPERTINA PERSONALIZZATA
+% =========================================================
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    
+    \rule{\textwidth}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt}
+    \rule{\textwidth}{0.4pt}\\[\baselineskip]
+    
+    {\Huge \textbf{\color{LimenDeep} L I M E N}} \\
+    \vspace{0.5cm}
+    {\Large \textit{Beyond the Threshold of Anxiety}} \\
+    
+    \rule{\textwidth}{0.4pt}\vspace*{-\baselineskip}\vspace*{2pt}
+    \rule{\textwidth}{1.6pt}\\[2cm]
+    
+    {\Large \textbf{SPECIFICHE TECNICHE E ARCHITETTURA}} \\
+    \vspace{0.5cm}
+    {\large Bracciale Bionico per la Gestione Predittiva dell'Ansia} \\
+    \vspace{0.3cm}
+    {\normalsize \textbf{Target:} Edge AI, Wearable Technology, Biofeedback} \\
+    
+    \vfill
+
+    % SEZIONE TEAM 
+    \begin{minipage}{0.8\textwidth}
+        \centering
+        \textbf{\large IL TEAM DI PROGETTO} \\
+        \vspace{0.5cm}
+            \textbf{Alberto Bortoletto} \\
+            \textbf{Daniele Luconi} \\
+            \textbf{Eduardo Pane} \\
+            \textbf{Fabrizio Scabbia} \\
+            \textbf{Michele Stevanin} \\
+            \textbf{Sara Zanella} \\            
+            \textbf{Sofia Parsadanova} \\
+    \end{minipage}
+
+    \vfill
+    {\large \today}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% =========================================================
+% CORPO DEL DOCUMENTO
+% =========================================================
+
+\section{Architettura Computazionale (Edge AI)}
+Per garantire risposte in tempo reale senza dipendere da una connessione smartphone o cloud, LIMEN elabora i dati localmente sul polso utilizzando l'approccio \textbf{TinyML}.
+
+\begin{itemize}
+    \item \textbf{Microcontrollore (SoC):} Architettura basata su ESP32-S3 (o equivalente Nordic nRF5340). Scelto per il supporto alle istruzioni vettoriali (accelerazione reti neurali), basso consumo energetico e connettività BLE integrata.
+    \item \textbf{Modello Predittivo:} Rete Neurale LSTM (Long Short-Term Memory) a 2 layer. Addestrata per identificare i pattern pre-crisi combinando 5 feature biometriche su finestre scorrevoli di 60 secondi.
+    \item \textbf{Compilazione e Ottimizzazione:} Il modello PyTorch nativo viene esportato in ONNX e quantizzato a 8-bit tramite TensorFlow Lite per Microcontrollori (TFLite Micro). Questo riduce il peso del modello a meno di 150 KB, permettendo l'inferenza in pochi millisecondi direttamente sulla RAM del SoC.
+\end{itemize}
+
+\section{Layout Hardware}
+Il bracciale è ingegnerizzato su due livelli funzionali: la rilevazione (lato pelle) e l'elaborazione/feedback (lato esterno).
+
+\begin{table}[h!]
+    \centering
+    \small
+    \caption{Componentistica Hardware e Posizionamento}
+    \vspace{0.3cm}
+    \begin{tabularx}{\textwidth}{@{}l l l X@{}}
+        \toprule
+        \textbf{Componente} & \textbf{Tipologia/Modello} & \textbf{Posizionamento} & \textbf{Funzione Primaria} \\ \midrule
+        \textbf{PPG} & MAX30102 (Ottico Verde/IR) & Inferiore, centro & Rilevazione HR e HRV \\
+        \textbf{EDA / GSR} & Piastrine in Ag/AgCl & Inferiore, lati PPG & Conduttanza Cutanea \\
+        \textbf{Termometro} & MAX30205 (Contatto) & Inferiore, adiacente EDA & Monitoraggio vasocostrizione \\
+        \textbf{IMU} & MPU6050 (6-assi) & Scheda Madre (PCB) & Filtraggio artefatti e respiro \\
+        \textbf{Motori Aptici} & 3x LRA + Driver DRV2605L & Superiore (12, 4, 8) & Feedback tattile e grounding \\
+        \textbf{Alimentazione} & Batteria LiPo 250 mAh curva & Superiore, sopra PCB & Autonomia giornaliera \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\section{Scelta dei Materiali ed Ergonomia}
+Il design di LIMEN privilegia il comfort prolungato e la precisione del segnale biometrico, evitando l'estetica stigmatizzante dei dispositivi medici tradizionali.
+
+\begin{itemize}
+    \item \textbf{Scocca Elettronica (Housing):} Realizzata in Policarbonato (PC) leggero o ABS. Garantisce rigidità strutturale per proteggere il PCB e la batteria, mantenendo un peso complessivo inferiore ai 40 grammi.
+    \item \textbf{Rivestimento Interno (Skin-contact):} Silicone Medicale Ipoallergenico o TPU (Poliuretano Termoplastico). Isola la scheda madre dal sudore e si adatta all'anatomia del polso, lasciando scoperte solo le lenti ottiche e le piastrine EDA.
+    \item \textbf{Cinturino:} Nylon intrecciato elastico con chiusura a micro-regolazione (es. velcro o magnetica). Assicura una pressione radiale costante, requisito fondamentale per non perdere l'aderenza del sensore PPG durante i movimenti.
+\end{itemize}
+
+\section{Logica Algoritmica: Il Loop Adattivo Aptico}
+Il sistema non si limita a vibrare, ma valuta la risposta fisiologica ogni 40 secondi, modificando la strategia per aggirare l'assuefazione dei meccanocettori (corpuscoli di Pacini).
+
+\subsection{Caso A: De-escalation (Il corpo risponde allo stimolo)}
+\begin{itemize}
+    \item \textbf{Trigger:} Il SoC rileva l'innalzamento dell'HRV e la stabilizzazione dell'EDA.
+    \item \textbf{Azione:} Il pattern aptico rallenta gradualmente (da 0.3 Hz a 0.15 Hz) e l'intensità sfuma fino a spegnersi (Fade-out).
+\end{itemize}
+
+\subsection{Caso B: Shift Strategico (L'ansia persiste)}
+Se i parametri biometrici non migliorano, l'algoritmo scala l'intensità dell'intervento attraverso 4 fasi distinte:
+\begin{enumerate}
+    \item \textbf{Fase 1 (0-40s) -- Entrainment Respiratorio:} Sinusoide globale e lenta per sincronizzare meccanicamente il respiro.
+    \item \textbf{Fase 2 (40-80s) -- Pressione Crescente:} Rampa a dente di sega per spostare l'attenzione sul polso (Grounding somatico).
+    \item \textbf{Fase 3 (80-120s) -- Stimolazione Spaziale Alternata:} I 3 motori LRA si attivano in rotazione per ingannare l'adattamento neurale.
+    \item \textbf{Fase 4 (>120s) -- Pattern Interrupt SOS:} Impulsi netti stile codice Morse che costringono il cervello a un'elaborazione cognitiva, distraendo forzatamente l'amigdala.
+\end{enumerate}
+
+\end{document}
