@@ -111,12 +111,6 @@ Scelte chiave di addestramento:
 - **ReduceLROnPlateau** — dimezza il learning rate dopo 5 epoche senza miglioramento della val_loss (LR minimo = 1e-5)
 - **EarlyStopping** — ripristina i migliori pesi, patience = 12 epoche
 
-### Performance di Addestramento
-
-![Curve di Training LIMEN](limen_training_curves.jpg)
-
-*Accuratezza e perdita (Cross-Entropy) nel corso delle 100 epoche di training. Il modello converge molto rapidamente nelle prime 10 epoche grazie alla BatchNorm, con l'accuratezza sul set di validazione che si stabilizza sopra il **93%**. La perdita di validazione si attesta intorno a **0.30**, mentre quella di training continua a scendere verso **0.15** — gap fisiologico e contenuto, tenuto sotto controllo da Dropout e regolarizzazione L2. L'assenza di divergenza tra le curve conferma che la strategia di regolarizzazione è efficace.*
-
 ### Deployment su Edge
 
 Il modello viene esportato in ONNX → quantizzato a **INT8 via TFLite Micro**, riducendo il peso a **< 150 KB** — abbastanza compatto da eseguire l'inferenza in pochi millisecondi direttamente nella RAM dell'ESP32-S3.
@@ -152,31 +146,6 @@ Ogni 40s: misura HRV + EDA
 
 ---
 
-## 📁 Struttura del Repository
-
-```
-limen/
-│
-├── firmware/
-│   └── [Inferenza TFLite Micro su ESP32-S3 + driver aptico]
-│
-├── ml/
-│   ├── attacchiPanico.py              # Pipeline di training LSTM
-│   └── electrical_sim.py              # Simulazione biofeedback hardware
-│
-├── data_generation/
-│   ├── simulate_realtime.py           # Generatore mono-profilo (P = innesca panico)
-│   └── simulate_realtime_multiprofile.py   # Generatore multi-profilo (5 soggetti)
-│
-├── data/
-│   ├── training_set.csv               # [generato]
-│   └── test_set.csv                   # [generato]
-│
-└── README.md
-```
-
----
-
 ## 🚀 Avvio Rapido
 
 ### 1. Genera i Dati di Training
@@ -187,7 +156,7 @@ pip install pynput numpy
 # Profilo singolo — premi P per innescare un attacco di panico, Q per uscire
 python data_generation/simulate_realtime.py --sample_rate 1
 
-# Multi-profilo — genera automaticamente 5 archetipi di soggetto
+# Multi-profilo — genera automaticamente 5 archetipi di soggetto  <-- Consigliati
 python data_generation/simulate_realtime_multiprofile.py --sample_rate 1
 ```
 
@@ -199,7 +168,7 @@ Output: `biosignals_live.csv` — una riga al secondo con le colonne `bpm, hrv_r
 pip install tensorflow scikit-learn pandas matplotlib
 
 # Rinomina i CSV generati in training_set.csv e test_set.csv
-python ml/attacchiPanico.py
+python attacchiPanico.py
 ```
 
 Il training gira per un massimo di 100 epoche con early stopping. L'accuratezza finale viene stampata insieme alle predizioni per classe.
@@ -207,7 +176,7 @@ Il training gira per un massimo di 100 epoche con early stopping. L'accuratezza 
 ### 3. Simulazione Hardware
 
 ```bash
-python ml/electrical_sim.py
+python electrical_sim.py
 ```
 
 Visualizza il loop aptico adattivo su 25 cicli di valutazione — traiettoria HRV + progressione delle fasi aptiche.
@@ -226,6 +195,6 @@ Visualizza il loop aptico adattivo su 25 cicli di valutazione — traiettoria HR
 
 ## 👥 Team
 
-Realizzato all'**LIMEN TEAM** · [Data]
+Realizzato dal **TEAM 3**, [28/03/2026]
 
 ---
