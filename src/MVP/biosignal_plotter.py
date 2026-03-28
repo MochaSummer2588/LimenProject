@@ -161,18 +161,29 @@ for i, ch in enumerate(CHANNELS):
 axes[-1].set_xlabel("campioni", fontsize=8, color="#444444", labelpad=4)
 
 # ── Header ────────────────────────────────────────────────────────────────────
-fig.text(0.5, 0.965, "BIOSIGNAL MONITOR",
+# Titolo (sposta leggermente a sinistra)
+fig.text(0.50, 0.965, "BIOSIGNAL MONITOR",
          ha="center", fontsize=12, color="#cccccc",
          fontweight="bold", fontfamily="monospace")
 
-# Badge stato panico (sinistra)
+# Label fissa "AI PREDICTION" — sulla riga del titolo, a sinistra
+fig.text(
+    0.18, 0.965, "AI PREDICTION",
+    ha="center", fontsize=9, color="#444444",
+    fontweight="bold", fontfamily="monospace",
+    bbox=dict(boxstyle="round,pad=0.3", facecolor="#111111",
+              edgecolor="#333333", linewidth=1.0)
+)
+
+# Badge stato — subito a destra della label, stessa riga
 state_badge = fig.text(
-    0.30, 0.942, "● NORMAL",
+    0.27, 0.965, "● NORMAL",
     ha="center", fontsize=9, color=STATE_META[0]["color"],
     fontweight="bold", fontfamily="monospace",
     bbox=dict(boxstyle="round,pad=0.3", facecolor="#0d1f15",
               edgecolor=STATE_META[0]["color"], linewidth=1.2)
 )
+
 
 # Badge evento life (destra)
 event_badge = fig.text(
