@@ -198,3 +198,5 @@ Visualizza il loop aptico adattivo su 25 cicli di valutazione — traiettoria HR
 Realizzato dal **TEAM 3**, [28/03/2026]
 
 ---
+
+# Licenza MIT
