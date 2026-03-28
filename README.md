@@ -1,4 +1,4 @@
-# 🫀 LIMEN — Bracciale Bionico per la Gestione Predittiva degli Attacchi di Panico
+# LIMEN — Bracciale Bionico per la Gestione Predittiva degli Attacchi di Panico
 
 > *"Limen"* (Latino) — *soglia*. Il confine esatto tra la calma e la crisi.
 
@@ -9,7 +9,7 @@
 
 ---
 
-## 🎯 Il Problema
+## Il Problema
 
 Gli attacchi di panico colpiscono senza preavviso — ma il corpo lo sa sempre prima. Nei minuti precedenti una crisi, il sistema nervoso invia segnali fisiologici chiari e inequivocabili: l'HRV cala, l'EDA aumenta, il respiro si accelera. Il problema è che nessuno li sta ascoltando.
 
@@ -17,7 +17,7 @@ I wearable esistenti (smartwatch, fitness band) rilevano la tachicardia *durante
 
 ---
 
-## 💡 Cosa Abbiamo Costruito
+## Cosa Abbiamo Costruito
 
 LIMEN è un **bracciale intelligente** che monitora continuamente 5 segnali biometrici, esegue una rete neurale LSTM direttamente sul dispositivo per predire l'insorgenza di un attacco di panico con circa 60 secondi di anticipo, e risponde con un protocollo aptico multi-fase adattivo progettato per riportare il corpo alla calma.
 
@@ -25,43 +25,43 @@ L'intero pipeline di inferenza gira **localmente sul microcontrollore** — ness
 
 ---
 
-## 🏗️ Architettura di Sistema
+## Architettura di Sistema
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                       BRACCIALE LIMEN                           │
 │                                                                 │
-│  ┌──────────────┐    ┌──────────────────────────────────────┐  │
-│  │    SENSORI   │    │        EDGE AI CORE (ESP32-S3)       │  │
-│  │              │    │                                      │  │
-│  │  PPG  ──────────► │  Acquisizione e Filtraggio Segnali   │  │
-│  │  EDA  ──────────► │     (rimozione artefatti IMU)        │  │
-│  │  TEMP ──────────► │                  │                   │  │
-│  │  IMU  ──────────► │  Finestra scorrevole da 60 secondi   │  │
-│  │  RESP ──────────► │     (5 feature × 60 campioni)        │  │
-│  │              │    │                  │                   │  │
-│  └──────────────┘    │    LSTM 2 layer (TFLite Micro)       │  │
-│                      │    quantizzato INT8 · < 150 KB       │  │
-│                      │                  │                   │  │
-│                      │    ┌─────────────▼──────────────┐    │  │
-│                      │    │   Classificazione di Stato  │    │  │
-│                      │    │  0:Normale  1:Onset         │    │  │
-│                      │    │  2:Panico   3:Recovery      │    │  │
-│                      │    └─────────────┬──────────────┘    │  │
-│                      │                  │                   │  │
-│                      │   Loop Aptico Adattivo (eval 40s)    │  │
-│                      └──────────────────┼───────────────────┘  │
+│  ┌──────────────┐    ┌──────────────────────────────────────┐   │
+│  │    SENSORI   │    │        EDGE AI CORE (ESP32-S3)       │   │
+│  │              │    │                                      │   │
+│  │  PPG  ──────────► │  Acquisizione e Filtraggio Segnali   │   │
+│  │  EDA  ──────────► │     (rimozione artefatti IMU)        │   │ 
+│  │  TEMP ──────────► │                  │                   │   │
+│  │  IMU  ──────────► │  Finestra scorrevole da 60 secondi   │   │
+│  │  RESP ──────────► │     (5 feature × 60 campioni)        │   │
+│  │              │    │                  │                   │   │
+│  └──────────────┘    │    LSTM 2 layer (TFLite Micro)       │   │ 
+│                      │    quantizzato INT8 · < 150 KB       │   │
+│                      │                  │                   │   │
+│                      │    ┌─────────────▼──────────────┐    │   │
+│                      │    │   Classificazione di Stato  │   │   │
+│                      │    │  0:Normale  1:Onset         │   │   │
+│                      │    │  2:Panico   3:Recovery      │   │   │
+│                      │    └─────────────┬──────────────┘    │   │
+│                      │                  │                   │   │
+│                      │   Loop Aptico Adattivo (eval 40s)    │   │
+│                      └──────────────────┼───────────────────┘   │
 │                                         │                       │
-│  ┌──────────────────────────────────────▼──────────────────┐   │
-│  │          3× MOTORI LRA  (driver DRV2605L)                │   │
-│  │    ●12    ●4    ●8   → pattern spaziali sfasati          │   │
-│  └──────────────────────────────────────────────────────────┘   │
+│  ┌──────────────────────────────────────▼──────────────────┐    │
+│  │          3× MOTORI LRA  (driver DRV2605L)               │    │
+│  │    ●12    ●4    ●8   → pattern spaziali sfasati         │    │
+│  └─────────────────────────────────────────────────────────┘    │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔬 Componenti Hardware
+## Componenti Hardware
 
 | Componente | Modello | Posizione | Funzione |
 |---|---|---|---|
@@ -77,7 +77,7 @@ L'intero pipeline di inferenza gira **localmente sul microcontrollore** — ness
 
 ---
 
-## 🧠 Modello AI — Predizione degli Attacchi di Panico
+## Modello AI — Predizione degli Attacchi di Panico
 
 ### Architettura
 
@@ -117,7 +117,7 @@ Il modello viene esportato in ONNX → quantizzato a **INT8 via TFLite Micro**, 
 
 ---
 
-## 💥 Loop Aptico Adattivo
+## Loop Aptico Adattivo
 
 Il sistema rivaluta la risposta fisiologica dell'utente ogni **40 secondi**, adattando lo stimolo aptico per prevenire l'assuefazione neurale (adattamento dei corpuscoli di Pacini).
 
@@ -125,7 +125,7 @@ Il sistema rivaluta la risposta fisiologica dell'utente ogni **40 secondi**, ada
 Ogni 40s: misura HRV + EDA
 │
 ├── HRV > 50 E EDA stabile?
-│     └── CASO A: De-escalation ✅
+│     └── CASO A: De-escalation 
 │           Il pattern aptico rallenta: 0.3 Hz → 0.15 Hz → fade out
 │
 └── Ansia persistente? → CASO B: Shift Strategico
@@ -146,7 +146,7 @@ Ogni 40s: misura HRV + EDA
 
 ---
 
-## 🚀 Avvio Rapido
+## Avvio Rapido
 
 ### 1. Genera i Dati di Training
 
@@ -183,7 +183,7 @@ Visualizza il loop aptico adattivo su 25 cicli di valutazione — traiettoria HR
 
 ---
 
-## 🔮 Roadmap
+## Roadmap
 
 - [ ] Esportazione modello in TFLite Micro (quantizzazione INT8)
 - [ ] Integrazione firmware ESP32-S3
@@ -193,7 +193,7 @@ Visualizza il loop aptico adattivo su 25 cicli di valutazione — traiettoria HR
 
 ---
 
-## 👥 Team
+## Team
 
 Realizzato dal **TEAM 3**, [28/03/2026]
 
