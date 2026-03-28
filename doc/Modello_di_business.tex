@@ -1,0 +1,312 @@
+\documentclass[12pt,a4paper]{article}
+
+% --- Pacchetti di Formattazione ---
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{eurosym} 
+\usepackage{setspace}
+\usepackage{tabularx}
+
+% --- Definizione Colori Branding LIMEN ---
+\definecolor{LimenDeep}{HTML}{0D0D1A}
+\definecolor{LimenAccent}{HTML}{A78BFA}
+\definecolor{LimenSoft}{HTML}{F1F5F9}
+
+% --- Configurazione Stili ---
+\titleformat{\section}{\large\bfseries\color{LimenDeep}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries\color{LimenDeep}}{\thesubsection}{1em}{}
+\onehalfspacing
+
+\begin{document}
+
+% =========================================================
+% COPERTINA
+% =========================================================
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    
+    \rule{\textwidth}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt}
+    \rule{\textwidth}{0.4pt}\\[\baselineskip]
+    
+    {\Huge \textbf{\color{LimenDeep} L I M E N}} \\
+    \vspace{0.5cm}
+    {\Large \textit{Beyond the Threshold of Anxiety}} \\
+    
+    \rule{\textwidth}{0.4pt}\vspace*{-\baselineskip}\vspace*{2pt}
+    \rule{\textwidth}{1.6pt}\\[2cm]
+    
+    {\Large \textbf{MODELLO DI BUSINESS E SOSTENIBILITÀ}} \\
+    \vspace{0.5cm}
+    {\large Analisi Finanziaria, Costi e Strategia di Revenue --- 2026} \\
+    
+    \vfill
+
+    \begin{minipage}{0.8\textwidth}
+        \centering
+        \textbf{\large IL TEAM DI PROGETTO} \\
+        \vspace{0.5cm}
+            \textbf{Alberto Bortoletto} \\
+            \textbf{Daniele Luconi} \\
+            \textbf{Eduardo Pane} \\
+            \textbf{Fabrizio Scabbia} \\
+            \textbf{Michele Stevanin} \\
+            \textbf{Sara Zanella} \\            
+            \textbf{Sofia Parsadanova} \\
+    \end{minipage}
+
+    \vfill
+    {\large \today}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% =========================================================
+% CORPO DEL DOCUMENTO
+% =========================================================
+
+\section{Executive Summary}
+
+\subsection{Oggetto del Documento}
+Il presente documento definisce il modello di business, la struttura dei costi e le proiezioni di sostenibilità finanziaria per il dispositivo \textbf{LIMEN} --- un sistema \textit{wearable} per il rilevamento predittivo e l'intervento autonomo sugli attacchi di panico. L'analisi copre i flussi di ricavo, la marginalità unitaria, il punto di pareggio operativo (BEP), le proiezioni di scalabilità a 5 anni e la matrice dei rischi associati.
+
+\subsection{Architettura del Modello}
+Il modello di business è strutturato su due componenti distinte:
+
+\begin{enumerate}
+    \item \textbf{Componente transazionale (B2C):} vendita diretta del dispositivo hardware a prezzo fisso di 249\euro\ (\textit{one-time purchase}), senza abbonamento obbligatorio per l'utente finale. Questa scelta progettuale elimina la frizione economica ricorrente --- un fattore di abbandono documentato nei modelli subscription-based per dispositivi medici consumer --- e posiziona LIMEN come strumento a investimento singolo con costo totale di possesso (TCO) inferiore rispetto ai competitor.
+
+    \item \textbf{Componente ricorrente (B2B SaaS):} piattaforma di monitoraggio remoto in modalità \textit{Freemium} destinata a professionisti della salute mentale (psicoterapeuti, psichiatri, cliniche CBT). Il modello Freemium serve sia come leva di acquisizione indiretta dei pazienti (il terapista prescrive il dispositivo) sia come fonte di revenue ricorrente per gli operatori con volumi clinici significativi.
+\end{enumerate}
+
+Questa architettura ibrida produce due effetti strutturali: (i) il costo di acquisizione cliente (CAC) del canale B2B2C risulta pari a $\sim$15\euro/paziente, un ordine di grandezza inferiore rispetto al canale diretto B2C ($\sim$60\euro); (ii) il rapporto LTV/CAC raggiunge 16.6:1 sul canale clinico, ben oltre la soglia convenzionale di 3:1 considerata indicatore di scalabilità sostenibile.
+
+\subsection{Posizionamento Competitivo sul Modello Economico}
+Il principale competitor identificato, Apollo Neuro (Apollo Neuroscience Inc., Pittsburgh, PA), adotta un modello hardware + subscription obbligatoria: \$349 per il dispositivo + \$99/anno per l'accesso a SmartVibes AI (apolloneuro.com, gennaio 2026). Il costo totale a 3 anni per l'utente Apollo è pertanto \$547. LIMEN, con un prezzo di 249\euro\ senza abbonamento, offre un TCO inferiore del 55\% sul triennio, trasferendo la componente ricorrente dal paziente al professionista clinico --- un modello economicamente più sostenibile per l'utente finale e con maggiore \textit{retention} grazie alla prescrizione medica.
+
+\section{Flussi di Entrate (Revenue Streams)}
+La struttura dei ricavi è distribuita su tre assi (modello 80-15-5), progettata per diversificare il rischio e aumentare il \textit{Lifetime Value} (LTV) dell'ecosistema.
+
+\subsection{1. Vendita Hardware (80\% dei Ricavi)}
+\begin{itemize}
+    \item \textbf{Prezzo al Pubblico (MSRP):} 249\euro.
+    \item \textbf{Proposta di Valore:} Pagamento \textit{una tantum}. Nessun costo nascosto per il paziente.
+    \item \textbf{Posizionamento vs competitor:} Apollo Neuro: \$349 + \$99/anno (costo a 3 anni: \$547). LIMEN: 249\euro\ (costo a 3 anni: 249\euro). Risparmio netto per l'utente: $\sim$55\% sul triennio.
+\end{itemize}
+
+\textbf{Verifica ricavo Anno 1:} $5.000 \times 249\text{\euro} = 1.245.000\text{\euro}$. Il ricavo hardware a Anno 1 ($\sim$1.0M\euro) rappresenta l'80\% del totale 1.2M\euro. $\checkmark$
+
+\subsection{2. SaaS B2B --- Dashboard Professionisti (15\% dei Ricavi)}
+Portale dedicato agli psicoterapeuti per il monitoraggio remoto dei pazienti dotati di LIMEN.
+\begin{itemize}
+    \item \textbf{Tier Freemium (Ambassador):} Gratuito fino a 5 pazienti. Incentivo per raccomandare il dispositivo ai propri pazienti.
+    \item \textbf{Tier Premium (Cliniche):} 49\euro/mese per cliniche e strutture che necessitano di analitiche predittive avanzate, gestione multi-paziente e report per assicurazioni sanitarie.
+\end{itemize}
+
+\textbf{Calcolo validazione SaaS (Anno 3):}
+Con 50.000 dispositivi venduti cumulativi e una rete di 500 terapisti Premium:
+$$Revenue_{SaaS} = 500 \times 49\text{\euro} \times 12 = 294.000\text{\euro/anno}$$
+A 12.5M\euro\ totali, il SaaS rappresenta il 2.4\%. Per raggiungere il target 15\% ($\sim$1.9M\euro), servono $\sim$3.200 terapisti Premium --- raggiungibile a scala europea.
+
+\subsection{3. Accessori e Servizi Premium (5\% dei Ricavi)}
+Cross-selling orientato alla personalizzazione:
+\begin{itemize}
+    \item Cinturini intercambiabili \textit{medical-grade} (19.90\euro).
+    \item Report clinici storici avanzati (PDF) per visite psichiatriche di controllo.
+    \item Sostituzione batteria/scocca dopo 2+ anni di utilizzo.
+\end{itemize}
+
+\section{Struttura dei Costi e Marginalità Industriale}
+
+\subsection{Costo di Produzione (COGS --- Bill of Materials)}
+Il costo industriale a regime è stato ottimizzato a \textbf{78\euro/unità} (lotti 1.000+ unità, assemblaggio SMT automatizzato + injection molding per la scocca).
+
+\begin{table}[h!]
+    \centering
+    \small
+    \caption{Distinta Base Dettagliata (BOM)}
+    \vspace{0.3cm}
+    \begin{tabularx}{\textwidth}{@{}X r@{}}
+        \toprule
+        \textbf{Componente} & \textbf{Costo} \\ \midrule
+        nRF5340 SoC (dual-core, BLE 5.2, TFLite Micro) & $\sim$5\euro \\
+        MAX30186 PPG (HRV + SpO2) & $\sim$8\euro \\
+        Elettrodi EDA AgCl $\times$2 su PCB & $\sim$2\euro \\
+        3$\times$ LRA Vybronics VG0832012D (8mm, 0.9g cad.) & $\sim$9\euro \\
+        DRV2605L driver aptico & $\sim$3\euro \\
+        NTC termistore SMD + BMI270 IMU 6 assi & $\sim$4\euro \\
+        LiPo 200mAh (30$\times$20$\times$4mm) & $\sim$4\euro \\
+        PCB 4-layer FR4 (35$\times$25mm) & $\sim$12\euro \\
+        Scocca TPU biocompatibile + cinturino silicone med. & $\sim$15\euro \\
+        Assemblaggio SMT + test QC + packaging & $\sim$16\euro \\
+        \midrule
+        \textbf{TOTALE COGS} & \textbf{$\sim$78\euro} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\textbf{Evoluzione COGS per scala:}
+\begin{itemize}
+    \item Prototipo hackathon (Arduino Nano 33 BLE + breakout): $\sim$74\euro
+    \item MVP 100 unità (PCB custom + scocca 3D print): $\sim$77\euro/unità
+    \item Scala 1.000 unità (injection mold + SMT): $\sim$78\euro/unità (questo documento)
+    \item Scala 10.000+ unità (volume discount componenti): $\sim$38\euro/unità \textit{landed}
+\end{itemize}
+
+\subsection{Calcolo del Margine Lordo (CM1)}
+\begin{equation}
+    CM1 = \frac{249\text{\euro} - 78\text{\euro}}{249\text{\euro}} = \frac{171}{249} = 68.67\%
+\end{equation}
+Ogni unità genera \textbf{171\euro} di profitto lordo. Benchmark: margine lordo medio elettronica di consumo 35--45\% (Deloitte TMT, 2024), medical devices 55--65\% (EY MedTech Report, 2024). LIMEN si posiziona nella fascia alta grazie al pricing premium clinico.
+
+\textbf{Proiezione a scala (10.000+ unità):}
+$$CM1_{scala} = \frac{249 - 38}{249} = \frac{211}{249} = 84.7\%$$
+
+\section{Canali di Vendita e Costo Acquisizione (CAC)}
+
+\subsection{Canale Diretto (B2C) --- Performance Marketing}
+Target: utente consapevole del proprio disturbo che cerca soluzioni online.
+\begin{itemize}
+    \item \textbf{Metodologia:} Google Ads (keyword: ``rimedi attacchi di panico'', ``ansia dispositivo''), Meta Ads (targeting interessi: salute mentale, psicologia, mindfulness).
+    \item \textbf{CAC Stimato:} \textbf{60\euro} (benchmark DTC medical wearables: Oura $\sim$50--80, Apollo $\sim$60--100).
+    \item \textbf{CM2 (B2C):}
+    $$CM2_{B2C} = 249 - 78 - 20\text{ (logistica/gateway)} - 60\text{ (CAC)} = 91\text{\euro} \quad (36.5\%)$$
+\end{itemize}
+
+\subsection{Canale Indiretto (B2B2C) --- La Rete ``Ambassador''}
+Il terapista prescrive LIMEN al paziente durante le sedute di CBT.
+\begin{itemize}
+    \item \textbf{Metodologia:} Contatto diretto con ordini professionali e cliniche. Dashboard SaaS Freemium come incentivo.
+    \item \textbf{CAC Stimato:} \textbf{15\euro} (costo onboarding terapista spalmato sui pazienti).
+    \item \textbf{CM2 (B2B2C):}
+    $$CM2_{B2B2C} = 249 - 78 - 20 - 15 = 136\text{\euro} \quad (54.6\%)$$
+\end{itemize}
+
+\textbf{Il canale B2B2C genera il 49\% in più di margine netto per unità rispetto al B2C.} Questa è la ragione strategica per cui il canale clinico è prioritario.
+
+\section{Unit Economics e Break-Even Analysis}
+
+\subsection{Punto di Pareggio Mensile (BEP)}
+Costi fissi operativi (OPEX) mensili stimati: \textbf{25.000\euro}:
+\begin{itemize}
+    \item Stipendi core team (4--5 persone, early stage): $\sim$15.000\euro
+    \item Infrastruttura cloud sicura (AWS/Azure, GDPR-compliant): $\sim$2.000\euro
+    \item Affitto coworking/lab + utilities: $\sim$3.000\euro
+    \item R\&D consumabili + certificazioni: $\sim$5.000\euro
+\end{itemize}
+
+Utilizzando il margine del canale prevalente (B2B2C):
+\begin{equation}
+    BEP = \frac{25.000\text{\euro}}{136\text{\euro}} = 183.8 \approx 184 \text{ unità/mese}
+\end{equation}
+
+\textbf{Validazione:} 184 unità/mese = 6.1 dispositivi/giorno. Per confronto, Apollo Neuro con \$30.7M di funding e $\sim$18 dipendenti vende un prodotto a \$349 in un mercato più ampio (wellness generico). LIMEN, con un BEP di sole 184 unità/mese in un mercato specifico ma profondo, richiede una soglia di sopravvivenza estremamente bassa.
+
+\textbf{Verifica annuale:}
+$$BEP_{annuo} = 184 \times 12 = 2.208 \text{ unità}$$
+$$Ricavi = 2.208 \times 249 = 549.792\text{\euro}$$
+$$Costi = 300.000\text{ (OPEX)} + 2.208 \times 78\text{ (COGS)} + 2.208 \times 35\text{ (logistica+CAC)} = 549.504\text{\euro} \quad \checkmark$$
+
+\subsection{Efficienza del Marketing: Rapporto LTV/CAC}
+Per il modello B2C (\textit{One-Time} purchase, LTV $\approx$ prezzo netto):
+\begin{equation}
+    \frac{LTV}{CAC} = \frac{249\text{\euro}}{60\text{\euro}} = 4.15 : 1
+\end{equation}
+
+Per il modello B2B2C:
+\begin{equation}
+    \frac{LTV}{CAC} = \frac{249\text{\euro}}{15\text{\euro}} = 16.6 : 1
+\end{equation}
+
+Il superamento della soglia convenzionale del $3:1$ (YC/a16z benchmark) in entrambi i canali conferma che il modello è non solo redditizio, ma strutturalmente scalabile. Il rapporto 16.6:1 del canale B2B2C è eccezionale e giustifica la priorità strategica di questo canale.
+
+\textbf{Nota:} Il LTV reale è superiore a 249\euro\ se si include il valore indiretto di ogni utente: dati di crisi che migliorano il modello LSTM (data moat), passaparola clinico (referral organico), e potenziale upselling di accessori e report.
+
+\section{Proiezioni di Scalabilità (Roadmap a 5 Anni)}
+
+\begin{table}[h!]
+    \centering
+    \small
+    \caption{Roadmap Finanziaria con Verifica}
+    \vspace{0.3cm}
+    \begin{tabularx}{\textwidth}{@{}l r r r r@{}}
+        \toprule
+        \textbf{Anno} & \textbf{Unità} & \textbf{Ricavo HW} & \textbf{Ricavo Tot.} & \textbf{Utile Lordo} \\ \midrule
+        1 --- Validazione & 5.000 & 1.25M\euro & 1.2M\euro & 555K\euro \\
+        2 --- Espansione EU & 20.000 & 4.98M\euro & 5.0M\euro & 2.42M\euro \\
+        3 --- Scaling & 50.000 & 12.45M\euro & 12.5M\euro & 6.55M\euro \\
+        4 --- Scale-up NA & 100.000 & 24.9M\euro & 25.0M\euro & 13.3M\euro \\
+        5 --- Leadership & 150.000 & 37.35M\euro & 37.5M\euro & 20.1M\euro \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\textbf{Calcolo utile lordo Anno 1:} $5.000 \times 171\text{\euro (CM1)} - 300K\text{\euro (OPEX annuo)} = 855K - 300K = 555K$\euro. $\checkmark$
+
+\textbf{Dettaglio milestone per anno:}
+\begin{enumerate}
+    \item \textbf{Anno 1 --- Validazione (1.2M\euro):} Vendita di $\sim$5.000 unità. Recruiting dei primi 100 psicoterapeuti ambassador. 3--5 studi pilota con centri psichiatrici italiani per validazione clinica. Ottimizzazione del modello LSTM con dati reali.
+    \item \textbf{Anno 2 --- Espansione EU (5.0M\euro):} 20.000 unità. Consolidamento rete B2B2C in Italia ($\sim$500 terapisti). Lancio in DACH (Germania, Austria, Svizzera) e Francia. Certificazione CE MDR completata.
+    \item \textbf{Anno 3 --- Scaling (12.5M\euro):} 50.000 unità. Integrazione SaaS Premium per macro-cliniche ($\sim$3.000 terapisti). Revenue SaaS ricorrente significativo. Dataset $>$5.000 crisi registrate.
+    \item \textbf{Anno 4 --- Scale-up NA (25.0M\euro):} 100.000 unità. FDA 510(k) submission e lancio mercato nordamericano. Partnership con network assicurativi US (HSA/FSA eligibility).
+    \item \textbf{Anno 5 --- Leadership (37.5M\euro):} 150.000 utenti attivi. Dataset proprietario $>$50.000 crisi = barriera strutturale all'ingresso. Posizionamento per integrazione nei piani di rimborso assicurativi europei.
+\end{enumerate}
+
+\section{Investimento Iniziale e Impiego dei Fondi}
+L'investimento stimato per portare LIMEN dal prototipo al mercato è di \textbf{80.000--120.000\euro}, così distribuito:
+
+\begin{table}[h!]
+    \centering
+    \small
+    \caption{Impiego dell'Investimento Pre-Seed}
+    \vspace{0.3cm}
+    \begin{tabularx}{\textwidth}{@{}X r r@{}}
+        \toprule
+        \textbf{Voce} & \textbf{Stima (min)} & \textbf{Stima (max)} \\ \midrule
+        Sviluppo PCB custom + firmware (3 iterazioni) & 15.000\euro & 25.000\euro \\
+        Stampo injection molding scocca TPU & 8.000\euro & 15.000\euro \\
+        Certificazione CE MDR (Class IIa, consulenza + test) & 25.000\euro & 40.000\euro \\
+        Primo lotto produzione (500 unità) & 20.000\euro & 25.000\euro \\
+        Marketing lancio + branding & 7.000\euro & 10.000\euro \\
+        Legale (brevetti, GDPR, T\&C) & 5.000\euro & 5.000\euro \\
+        \midrule
+        \textbf{TOTALE} & \textbf{80.000\euro} & \textbf{120.000\euro} \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\textbf{Break-even dell'investimento:}
+Con CM2 medio di 136\euro/unità, il numero di unità necessarie per recuperare l'investimento è:
+$$\frac{100.000\text{\euro (media)}}{136\text{\euro}} \approx 735 \text{ unità}$$
+Inferiore al primo lotto di produzione. L'investimento si ripaga entro i primi 3--4 mesi di vendita (ipotesi 184+ unità/mese).
+
+\section{Rischi e Mitigazioni}
+
+\begin{table}[h!]
+    \centering
+    \small
+    \caption{Matrice dei Rischi Principali}
+    \vspace{0.3cm}
+    \begin{tabularx}{\textwidth}{@{}l X X@{}}
+        \toprule
+        \textbf{Rischio} & \textbf{Impatto} & \textbf{Mitigazione} \\ \midrule
+        Ritardo certificazione CE & Slittamento lancio 6--12 mesi & Pre-consulenza con ente notificato; classificazione Class IIa (non III) \\
+        CAC B2C superiore a 60\euro & Margine B2C ridotto & Priorità canale B2B2C (CAC 15\euro); riduzione dipendenza da paid ads \\
+        Big Tech entra nel segmento & Competizione su distribuzione & Data moat (dataset proprietario); specializzazione clinica vs generalismo \\
+        Falsi positivi del modello & Fiducia utente compromessa & AND logico a tripla verifica + calibrazione baseline individuale \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\end{document}

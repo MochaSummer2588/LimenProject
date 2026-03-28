@@ -1,0 +1,301 @@
+\documentclass[12pt,a4paper]{article}
+
+% --- Pacchetti di Formattazione ---
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{eurosym}
+\usepackage{setspace}
+\usepackage{tabularx}
+
+% --- Definizione Colori Branding LIMEN ---
+\definecolor{LimenDeep}{HTML}{0D0D1A}
+\definecolor{LimenAccent}{HTML}{A78BFA}
+\definecolor{LimenSoft}{HTML}{F1F5F9}
+
+% --- Configurazione Stili ---
+\titleformat{\section}{\large\bfseries\color{LimenDeep}}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries\color{LimenDeep}}{\thesubsection}{1em}{}
+\onehalfspacing
+
+\begin{document}
+
+% =========================================================
+% COPERTINA
+% =========================================================
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    
+    \rule{\textwidth}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt}
+    \rule{\textwidth}{0.4pt}\\[\baselineskip]
+    
+    {\Huge \textbf{\color{LimenDeep} L I M E N}} \\
+    \vspace{0.5cm}
+    {\Large \textit{Beyond the Threshold of Anxiety}} \\
+    
+    \rule{\textwidth}{0.4pt}\vspace*{-\baselineskip}\vspace*{2pt}
+    \rule{\textwidth}{1.6pt}\\[2cm]
+    
+    {\Large \textbf{ANALISI DI MERCATO}} \\
+    \vspace{0.5cm}
+    {\large Versione Prospettica 2026} \\
+    
+    \vfill
+
+    \begin{minipage}{0.8\textwidth}
+        \centering
+        \textbf{\large IL TEAM DI PROGETTO} \\
+        \vspace{0.5cm}
+            \textbf{Alberto Bortoletto} \\
+            \textbf{Daniele Luconi} \\
+            \textbf{Eduardo Pane} \\
+            \textbf{Fabrizio Scabbia} \\
+            \textbf{Michele Stevanin} \\
+            \textbf{Sara Zanella} \\            
+            \textbf{Sofia Parsadanova} \\
+    \end{minipage}
+
+    \vfill
+    {\large \today}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% =========================================================
+% CORPO DEL DOCUMENTO
+% =========================================================
+
+\section{Introduzione}
+
+\subsection{Oggetto e Ambito del Documento}
+Il presente documento costituisce l'analisi di mercato relativa al dispositivo \textbf{LIMEN} --- un sistema indossabile (\textit{wearable}) da polso progettato per il rilevamento predittivo e l'intervento autonomo sugli attacchi di panico mediante \textit{grounding} aptico adattivo. Il nome deriva dal latino \textit{limen} (soglia) e identifica l'obiettivo funzionale del dispositivo: intercettare la transizione neurovegetativa che precede l'insorgenza della crisi e intervenire prima che questa superi la soglia di irreversibilità simpatica.
+
+L'analisi copre il dimensionamento del mercato indirizzabile (TAM/SAM/SOM), il quadro epidemiologico di riferimento, il posizionamento competitivo rispetto ai dispositivi attualmente disponibili e la validazione quantitativa delle proiezioni economiche. Tutti i dati sono corredati da fonti verificabili e calcoli espliciti.
+
+\subsection{Definizione del Problema Clinico}
+Il disturbo di panico (PD, \textit{Panic Disorder} --- DSM-5 300.01) è caratterizzato da episodi ricorrenti di attivazione simpatica acuta, con prevalenza \textit{lifetime} del 3.6\% nella popolazione adulta italiana (Porcelli et al., 2015, \textit{Comprehensive Psychiatry}; N=4.999) e dati post-pandemici che suggeriscono un incremento fino al 10.3\% in specifiche coorti regionali (Silvestri et al., 2023, \textit{BMC Psychiatry}; N=390, Toscana).
+
+Durante la fase prodromica dell'attacco, l'attivazione dell'amigdala inibisce funzionalmente la corteccia prefrontale dorsolaterale attraverso il meccanismo descritto da LeDoux (1996) come \textit{amygdala hijack}. In questa condizione, le risorse cognitive necessarie per l'interazione con interfacce visive o applicazioni mobili risultano temporaneamente indisponibili. Le soluzioni digitali attualmente sul mercato (app di mindfulness, esercizi guidati su smartphone) richiedono esattamente tali risorse, risultando pertanto clinicamente inadeguate nella fase acuta della crisi.
+
+\subsection{Razionale Neurofisiologico dell'Intervento}
+LIMEN adotta un canale sensoriale alternativo che rimane funzionale anche al picco della crisi: la stimolazione delle fibre C tattili afferenti a bassa soglia (\textit{C-tactile afferents}, McGlone et al., 2014, \textit{Neuron}, 82(4), 737--755). Queste fibre, con velocità di conduzione di 0.5--2 m/s, proiettano direttamente alla corteccia insulare posteriore bypassando il circuito corticale prefrontale (Olausson et al., 2002, \textit{Nature Neuroscience}, 5, 900--904). La stimolazione tattile affettiva a frequenza ottimale (1--10 cm/s sulla superficie cutanea) attiva la componente parasimpatica del sistema nervoso autonomo, producendo una riduzione della frequenza cardiaca e un incremento della variabilità cardiaca (HRV) senza richiedere elaborazione cognitiva conscia (Bj\"{o}rnsdotter et al., 2010, \textit{Experimental Brain Research}).
+
+Il dispositivo integra pertanto: (i) un modulo di rilevamento predittivo basato su modello LSTM (\textit{Long Short-Term Memory}) quantizzato a 8-bit, operante su microcontrollore nRF5340 (Edge AI); (ii) un modulo di sensor fusion multimodale (PPG, EDA, temperatura periferica, IMU) con logica di attivazione a tripla concordanza (AND logico); (iii) un modulo di \textit{grounding} aptico dinamico con 3 attuatori lineari risonanti (LRA) a pattern spaziale variabile per la prevenzione dell'assuefazione recettoriale (Whitsel et al., 1988, \textit{Journal of Neurophysiology}).
+
+\section{Analisi del Mercato: Dimensioni e Scalabilità}
+L'analisi quantitativa del mercato si basa su dati estratti dai principali report internazionali di \textit{Digital Health} pubblicati nel biennio 2024--2026.
+
+\subsection{Dati di Mercato Verificati}
+Le fonti principali convergono sulle seguenti stime:
+
+\begin{table}[h!]
+    \centering
+    \small
+    \caption{Dimensioni di Mercato --- Fonti a Confronto}
+    \vspace{0.3cm}
+    \begin{tabularx}{\textwidth}{@{}X l l l@{}}
+        \toprule
+        \textbf{Segmento} & \textbf{Valore Base} & \textbf{CAGR} & \textbf{Fonte} \\ \midrule
+        Mental Health Wearables & \$1.5B (2023) & 19\% & Dataintelo, 2024 \\
+        MH Tracking Devices & \$4.32B (2024) & 13.8\% & MetaTech Insights \\
+        MH Technology (totale) & \$10.08B (2025) & 18.74\% & Towards Healthcare \\
+        Wearable Healthcare & \$45.29B (2025) & 10.9\% & MarketsandMarkets \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\subsection{Modello TAM, SAM, SOM con Calcoli di Validazione}
+Abbiamo modellato la dimensione del mercato attraverso un approccio \textit{top-down}, utilizzando il segmento più pertinente (Mental Health Tracking Devices):
+
+\begin{description}
+    \item[TAM (Total Addressable Market): USD 4.32 Miliardi (2024)] Mercato globale dei dispositivi di monitoraggio della salute mentale (MetaTech Insights, 2025). Proiezione a 5 anni con CAGR 13.8\%:
+    $$TAM_{2029} = 4.32 \times (1.138)^5 = 4.32 \times 1.908 \approx \text{USD } 8.24 \text{ Mld}$$
+    
+    \item[SAM (Serviceable Addressable Market): USD 2.66 Miliardi] Europa + Nord America, i mercati dove LIMEN opererà inizialmente. Quote regionali dal report MetaTech Insights (2024): Europa USD 1.21 Mld + Nord America USD 1.45 Mld = USD 2.66 Mld, pari al 61.6\% del TAM globale.
+    
+    \textbf{Validazione bottom-up (solo Italia):}
+    \begin{itemize}
+        \item Popolazione italiana $\geq$18 anni: $\sim$50.6 milioni (ISTAT, 2024)
+        \item Prevalenza \textit{lifetime} disturbo di panico: 3.6\% (Porcelli et al., 2015; N=4.999)
+        \item Persone con PD \textit{lifetime}: $50.6M \times 3.6\% = 1.82M$
+        \item Con tasso di adozione wearable del 5\%: $1.82M \times 0.05 = 91.000$ utenti $\times$ 249\euro\ $= 22.7M$\euro\ --- solo Italia, solo B2C, solo dato pre-COVID
+    \end{itemize}
+    
+    \item[SOM (Serviceable Obtainable Market): $\sim$USD 32 Milioni (Anno 5)] Circa 120.000 utenti attivi:
+    $$SOM = 120.000 \times 249\text{\euro} = 29.9M\text{\euro} \approx \text{USD } 32M$$
+    Penetrazione: $32M / 2.660M = 1.2\%$ del SAM EU+NA. Target conservativo per un \textit{first mover} in un segmento senza competitor diretti.
+\end{description}
+
+\section{Prevalenza e Dati Epidemiologici}
+
+\begin{table}[h!]
+    \centering
+    \small
+    \caption{Prevalenza del Disturbo di Panico --- Evidenze Epidemiologiche}
+    \vspace{0.3cm}
+    \begin{tabularx}{\textwidth}{@{}l X l l@{}}
+        \toprule
+        \textbf{Studio} & \textbf{Campione} & \textbf{Prevalenza PD} & \textbf{Anno} \\ \midrule
+        Porcelli et al. & N=4.999, Italia nazionale & 3.6\% lifetime & 2015 \\
+        Silvestri et al. & N=390, Toscana (post-COVID) & 10.3\% lifetime & 2023 \\
+        de Girolamo (ESEMeD) & N=4.712, Italia nazionale & 10.3\% ansia (any) & 2006 \\
+        de Jonge (WHO WMH) & N=142.949, 25 paesi & 1.7\% lifetime PD & 2016 \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\textbf{Nota interpretativa:} La discrepanza tra 3.6\% (Porcelli, pre-COVID) e 10.3\% (Silvestri, post-COVID) è coerente con l'aumento documentato delle richieste di assistenza psichiatrica in Italia post-pandemia (+6.9\% nel 2021, WHO Europe / Ministero della Salute). Il dato Silvestri è regionale (Toscana) e su campione ridotto (N=390), dunque da interpretare con cautela. Il dato Porcelli (3.6\%, N=4.999, scala nazionale) resta la stima più robusta per il dimensionamento del mercato.
+
+\section{Target di Riferimento e Strategia d'Acquisizione}
+
+\subsection{Segmento B2C: L'utente Indipendente}
+Target B2C primario: individui 20--45 anni con diagnosi o auto-riconoscimento di disturbo d'ansia/panico. Acquisizione tramite \textit{Performance Marketing} (Meta, Google Ads --- keyword: ``rimedi attacchi di panico'', ``ansia dispositivo'').
+
+CAC stimato sulla base dei benchmark \textit{medical wearables} DTC (Oura, Whoop, Apollo):
+$$CAC_{B2C} \approx 60\text{\euro}$$
+
+\subsection{Segmento B2B2C: Il Modello Ambassador (Psicoterapeuti)}
+Il vero ``fossato'' competitivo (Moat) di LIMEN. Una \textit{Dashboard SaaS Freemium} per psicologi trasforma LIMEN in strumento prescritto nella terapia cognitivo-comportamentale (CBT).
+
+\begin{itemize}
+    \item \textbf{Crollo del CAC:} Un singolo terapista raccomanda LIMEN a $\sim$10--30 pazienti/anno. CAC effettivo: \textbf{$\sim$15\euro/paziente}.
+    \item \textbf{Incremento della Retention:} La prescrizione medica azzera i resi impulsivi e aumenta la retention oltre il 90\%.
+    \item \textbf{Riduzione dello stigma:} Il canale clinico elimina la barriera dello stigma --- problema documentato per i wearable di salute mentale (Diaz-Ramos et al., 2023, \textit{JMIR}).
+\end{itemize}
+
+\textbf{Calcolo di validazione B2B2C (Italia):}
+Psicologi iscritti all'Albo: $\sim$120.000 (CNOP, 2024). Se LIMEN raggiunge l'1\% (1.200 terapisti) con 10 pazienti/anno:
+$$1.200 \times 10 \times 249\text{\euro} = 2.99M\text{\euro/anno}$$
+Aggiungendo la subscription SaaS Premium (49\euro/mese per cliniche): $1.200 \times 0.2 \times 49 \times 12 = 141K$\euro/anno di ricorrente.
+
+\section{Analisi dei Competitor e Posizionamento Strategico}
+
+\begin{table}[h!]
+    \centering
+    \small
+    \caption{Benchmark Competitivo Dettagliato (dati verificati, marzo 2026)}
+    \vspace{0.3cm}
+    \begin{tabularx}{\textwidth}{@{}l X X X X@{}}
+        \toprule
+        \textbf{Metrica} & \textbf{LIMEN} & \textbf{Apollo Neuro} & \textbf{Empatica} & \textbf{Apple Watch} \\ \midrule
+        \textbf{Rilevamento} & Predittivo (LSTM) & Assente & Post-evento & Reattivo \\
+        \textbf{Intervento} & Auto-grounding & Manuale (app) & Alert caregiver & Notifica \\
+        \textbf{Sensori} & PPG+EDA+Temp+IMU & Nessuno & PPG+EDA+Temp+Acc & PPG+Acc \\
+        \textbf{AI on-device} & S\`i (nRF5340) & No & Cloud-based & Cloud-based \\
+        \textbf{Target} & Disturbo panico & Wellness & Epilessia (FDA) & Salute gen. \\
+        \textbf{Prezzo} & 249\euro & \$349+\$99/a & $\sim$\$250+abb. & 449--799\euro \\
+        \textbf{Funding} & Pre-seed & \$30.7M & >50M & N/A \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\textbf{Note verificate sui competitor:}
+\begin{itemize}
+    \item \textbf{Apollo Neuro} (\$349 + SmartVibes AI \$99/anno --- apolloneuro.com, gen. 2026): si auto-definisce ``wellness wearable, not intended to treat psychiatric disorders such as generalized anxiety disorder, social anxiety disorder, and panic disorder'' (Crunchbase, 2026). Non ha sensori biometrici: eroga vibrazioni pre-programmate senza feedback fisiologico. Funding totale: \$30.7M su 4 round (Tracxn, 2025; ultimo round \$500K, apr. 2024). $\sim$18 dipendenti (feb. 2026, LeadIQ).
+    \item \textbf{Empatica:} dispositivo medico certificato FDA 510(k) / CE MDR Class IIa per epilessia (crisi tonico-cloniche), non per ansia/panico. EpiMonitor subscription: €149--291/6 mesi (epilepsyalarms.co.uk, 2026). Orientato alla ricerca clinica e ospedaliera.
+    \item \textbf{Apple Watch:} traccia HRV e offre notifiche di frequenza cardiaca irregolare come feature secondaria. Nessun intervento attivo. Ecosistema generalista.
+\end{itemize}
+
+\subsection{Matrice di Posizionamento}
+Su una matrice (Asse X: Reattivo vs Proattivo; Asse Y: Salute Generica vs Specifico Panico):
+\begin{itemize}
+    \item \textbf{Big Tech} (Apple, Fitbit): Reattivo / Generico
+    \item \textbf{Apollo Neuro}: Proattivo / Generico (attivatore manuale senza sensori)
+    \item \textbf{Empatica}: Reattivo / Specifico (epilessia, non panico)
+    \item \textbf{LIMEN}: \textbf{Proattivo / Specifico Panico} --- quadrante vuoto, \textit{first mover}
+\end{itemize}
+
+\section{Unit Economics e Sostenibilità}
+
+\subsection{BOM e Margine Lordo (CM1)}
+COGS a regime (1.000+ unità, SMT + injection molding): \textbf{78\euro/unità}.
+
+Dettaglio BOM: nRF5340 ($\sim$5\euro), MAX30186 PPG ($\sim$8\euro), elettrodi EDA AgCl ($\sim$2\euro), 3$\times$LRA Vybronics ($\sim$9\euro), DRV2605L ($\sim$3\euro), LiPo 200mAh ($\sim$4\euro), PCB 4-layer ($\sim$12\euro), scocca TPU + cinturino ($\sim$15\euro), assemblaggio + test ($\sim$20\euro).
+
+$$CM1 = \frac{249 - 78}{249} \times 100 = 68.67\% \quad \text{(171\euro/unità)}$$
+
+Benchmark: il margine lordo medio nell'elettronica di consumo è 35--45\% (Deloitte TMT, 2024). LIMEN è superiore grazie al pricing premium giustificato dal valore clinico.
+
+\subsection{Break-Even Point}
+$$CM2 = 249 - 78 - 20\text{ (logistica)} - 15\text{ (CAC B2B)} = 136\text{\euro} \quad (54.6\%)$$
+$$BEP = \frac{25.000\text{\euro/mese}}{136\text{\euro}} \approx 184 \text{ unità/mese} \approx 6 \text{ al giorno}$$
+
+\subsection{Revenue Forecast (5 Anni)}
+\begin{table}[h!]
+    \centering
+    \small
+    \caption{Proiezione Ricavi con Verifica Calcoli}
+    \vspace{0.3cm}
+    \begin{tabularx}{\textwidth}{@{}l r r r r@{}}
+        \toprule
+        \textbf{Anno} & \textbf{Unità} & \textbf{Ricavo} & \textbf{Verifica} & \textbf{YoY} \\ \midrule
+        1 --- Validazione & 5.000 & 1.2M\euro & $5K \times 249 = 1.25M$ & --- \\
+        2 --- Espansione EU & 20.000 & 5.0M\euro & $20K \times 249 = 4.98M$ & $\times$4.0 \\
+        3 --- Consolidamento & 50.000 & 12.5M\euro & $50K \times 249 = 12.45M$ & $\times$2.5 \\
+        4 --- Scale-up NA & 100.000 & 25.0M\euro & $100K \times 249 = 24.9M$ & $\times$2.0 \\
+        5 --- Leadership & 150.000 & 37.5M\euro & $150K \times 249 = 37.35M$ & $\times$1.5 \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+Profilo di crescita decelerante (4x $\rightarrow$ 2.5x $\rightarrow$ 2x $\rightarrow$ 1.5x): coerente con la maturazione progressiva del canale distributivo.
+
+\section{Il Vantaggio Tecnologico}
+
+\begin{enumerate}
+    \item \textbf{Edge AI e TinyML:} Modello LSTM quantizzato a 8-bit ($\sim$14KB pesi, $\sim$80KB con runtime TFLite Micro) su nRF5340 (dual-core Cortex-M33, BLE 5.2). Zero latenza cloud, 100\% GDPR-compliant.
+    \item \textbf{Sensor Fusion a Tripla Verifica (AND logico):}
+    \begin{itemize}
+        \item HRV RMSSD cala $>$15\% dalla baseline individuale
+        \item EDA sale $>$0.05 $\mu$S/min
+        \item Temperatura periferica scende $>$0.5\textdegree C (vasocostrizione)
+        \item IMU 6 assi (BMI270): nessun movimento fisico significativo (esclude falsi positivi da esercizio)
+    \end{itemize}
+    Riferimenti: Christian et al. (2023), Tomasi et al. (2024).
+    \item \textbf{Grounding Dinamico:} 3 LRA in sequenza spaziale; reset dell'adattamento dei corpuscoli di Pacini (Whitsel et al., 1988) per impedire assuefazione.
+    \item \textbf{Data Moat:} Ogni crisi registrata migliora il modello. Con 10.000+ utenti si genera un dataset di crisi d'ansia inesistente in qualsiasi database pubblico --- barriera strutturale all'ingresso.
+\end{enumerate}
+
+\section{Fonti e Bibliografia Verificata}
+
+\subsection{Epidemiologia e Clinica}
+\begin{itemize}
+    \item Porcelli, S. et al. (2015). \textit{Comprehensive Psychiatry}, 59, 103--112. PD lifetime: 3.6\% (N=4.999, Italia).
+    \item Silvestri, C. et al. (2023). \textit{BMC Psychiatry}, 23(1):12. PD lifetime post-COVID: 10.3\% (N=390, Toscana).
+    \item de Girolamo, G. et al. (2006). \textit{Soc Psychiatry Psychiatr Epidemiol}, 41(11), 853--861. ESEMeD Italia (N=4.712).
+    \item de Jonge, P. et al. (2016). \textit{Depression and Anxiety}, 33(12), 1155--1177. WHO WMH (N=142.949, 25 paesi).
+\end{itemize}
+
+\subsection{Neuroscienze}
+\begin{itemize}
+    \item LeDoux, J.E. (1996). \textit{The Emotional Brain}. Simon \& Schuster.
+    \item McGlone, F. et al. (2014). \textit{Neuron}, 82(4), 737--755. Fibre CT afferenti.
+    \item Olausson, H. et al. (2002). \textit{Nature Neuroscience}, 5, 900--904. Proiezione insulare.
+    \item Tomasi, J. et al. (2024). \textit{Psychophysiology}. HRV come biomarker ansia.
+    \item Christian, L. et al. (2023). \textit{Clinical Psychological Science}. EDA+HRV predittivi.
+    \item Whitsel, B.L. et al. (1988). \textit{J Neurophysiology}. Adattamento aptico.
+\end{itemize}
+
+\subsection{Mercato e Competitor}
+\begin{itemize}
+    \item Dataintelo (2024). Mental Health Wearables Market 2025--2033. \$1.5B, CAGR 19\%.
+    \item MetaTech Insights (2025). MH Tracking Devices Market. \$4.32B (2024), CAGR 13.8\%.
+    \item Towards Healthcare (2026). MH Technology Market. \$10.08B (2025), CAGR 18.74\%.
+    \item MarketsandMarkets (2025). Wearable Healthcare Devices. \$45.29B (2025), CAGR 10.9\%.
+    \item Apollo Neuro: \$30.7M funding (Tracxn, 2025). Prezzo: \$349+\$99/a (apolloneuro.com, 2026).
+    \item Empatica: CE MDR IIa / FDA 510(k). EpiMonitor: €149--291/6m (empatica.com, 2026).
+    \item Diaz-Ramos et al. (2023). \textit{JMIR}. Stigma e adozione wearable salute mentale.
+\end{itemize}
+
+\end{document}
