@@ -1,5 +1,7 @@
 # LIMEN — Bracciale Bionico per la Gestione Predittiva degli Attacchi di Panico
 
+# Hackathon 1º Winner Elevator Innovation Hub
+
 > *"Limen"* (Latino) — *soglia*. Il confine esatto tra la calma e la crisi.
 
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python)](https://python.org)
