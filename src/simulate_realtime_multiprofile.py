@@ -47,7 +47,7 @@ EVENT_PROBABILITY_PER_SEC = 0.1   # ← modifica qui
 
 # Probabilità che parta un attacco di panico ogni secondo (solo in stato normal
 # e senza eventi attivi).  Es. 0.002 → circa 1 panico ogni ~500 secondi.
-PANIC_PROBABILITY_PER_SEC = 0.002   # ← modifica qui
+PANIC_PROBABILITY_PER_SEC = 0.02   # ← modifica qui
 
 # Pesi relativi: running, fright, injury, sleep
 EVENT_WEIGHTS = [4, 2, 1, 3]      # ← modifica qui
