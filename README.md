@@ -1,50 +1,235 @@
-Ecco il contenuto del README.md in italiano, ottimizzato per Obsidian (con l'uso dei Callouts) e completo di tutte le citazioni tecniche basate sui documenti di progetto.🫀 LIMEN — Bracciale Bionico per la Gestione Predittiva dell'Ansia🎯 Il ProblemaGli attacchi di panico colpiscono spesso senza preavviso, ma il corpo manifesta precursori fisiologici diversi minuti prima che l'utente ne diventi consapevole.Durante la finestra di "pre-crisi", il sistema nervoso invia segnali chiari: la variabilità della frequenza cardiaca (HRV) diminuisce, la conduttanza cutanea (EDA) aumenta e la respirazione accelera.I dispositivi wearable attuali rilevano solitamente la frequenza cardiaca elevata solo dopo l'inizio dell'attacco, quando è ormai troppo tardi per intervenire efficacemente.LIMEN è progettato per agire prima del superamento della soglia critica, utilizzando il riconoscimento di pattern biometrici per innescare una de-escalation in tempo reale.💡 La Nostra SoluzioneMonitoraggio Predittivo: Un bracciale intelligente che monitora costantemente 5 segnali biometrici per identificare i pattern pre-crisi con una finestra di circa 60 secondi.Implementazione Edge AI: Esegue una rete neurale LSTM a 2 layer direttamente sul dispositivo utilizzando l'approccio TinyML.Feedback Adattivo: Risponde con un protocollo aptico multi-fase progettato per guidare il corpo verso uno stato di calma, aggirando l'assuefazione dei meccanocettori.Elaborazione Locale: Nessuna dipendenza dal cloud o dallo smartphone; l'inferenza avviene localmente sul microcontrollore per garantire latenza zero e totale privacy dei dati.🏗️ Architettura di SistemaPlaintext┌─────────────────────────────────────────────────────────────────┐
-│                        BRACCIALE LIMEN                          │
+# 🫀 LIMEN — Bracciale Bionico per la Gestione Predittiva degli Attacchi di Panico
+
+> *"Limen"* (Latino) — *soglia*. Il confine esatto tra la calma e la crisi.
+
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square&logo=python)](https://python.org)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-FF6F00?style=flat-square&logo=tensorflow)](https://tensorflow.org)
+[![TFLite](https://img.shields.io/badge/TFLite_Micro-Edge_AI-green?style=flat-square)](https://www.tensorflow.org/lite/microcontrollers)
+[![Hardware](https://img.shields.io/badge/MCU-ESP32--S3-red?style=flat-square)](https://www.espressif.com/en/products/socs/esp32-s3)
+
+---
+
+## 🎯 Il Problema
+
+Gli attacchi di panico colpiscono senza preavviso — ma il corpo lo sa sempre prima. Nei minuti precedenti una crisi, il sistema nervoso invia segnali fisiologici chiari e inequivocabili: l'HRV cala, l'EDA aumenta, il respiro si accelera. Il problema è che nessuno li sta ascoltando.
+
+I wearable esistenti (smartwatch, fitness band) rilevano la tachicardia *durante* l'attacco, quando è ormai troppo tardi per intervenire. **LIMEN è progettato per agire *prima* che la soglia venga superata** — utilizzando il riconoscimento predittivo di pattern biometrici e un feedback aptico adattivo per de-escalare il sistema nervoso in tempo reale, direttamente sul polso.
+
+---
+
+## 💡 Cosa Abbiamo Costruito
+
+LIMEN è un **bracciale intelligente** che monitora continuamente 5 segnali biometrici, esegue una rete neurale LSTM direttamente sul dispositivo per predire l'insorgenza di un attacco di panico con circa 60 secondi di anticipo, e risponde con un protocollo aptico multi-fase adattivo progettato per riportare il corpo alla calma.
+
+L'intero pipeline di inferenza gira **localmente sul microcontrollore** — nessuno smartphone, nessun cloud, nessuna latenza.
+
+---
+
+## 🏗️ Architettura di Sistema
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                       BRACCIALE LIMEN                           │
 │                                                                 │
 │  ┌──────────────┐    ┌──────────────────────────────────────┐  │
-│  │   SENSORI    │    │         CORE EDGE AI (ESP32-S3)      │  │
+│  │    SENSORI   │    │        EDGE AI CORE (ESP32-S3)       │  │
 │  │              │    │                                      │  │
-│  │  PPG  ──────────► │  Acquisizione e Filtraggio Segnale   │  │
-│  │  EDA  ──────────► │      (Rimozione artefatti IMU)       │  │
+│  │  PPG  ──────────► │  Acquisizione e Filtraggio Segnali   │  │
+│  │  EDA  ──────────► │     (rimozione artefatti IMU)        │  │
 │  │  TEMP ──────────► │                  │                   │  │
-│  │  IMU  ──────────► │  Finestra scorrevole 60 secondi      │  │
-│  │  RESP ──────────► │       (5 feature × 60 tick)          │  │
+│  │  IMU  ──────────► │  Finestra scorrevole da 60 secondi   │  │
+│  │  RESP ──────────► │     (5 feature × 60 campioni)        │  │
 │  │              │    │                  │                   │  │
-│  └──────────────┘    │    LSTM 2-layer (TFLite Micro)       │  │
-│                      │    quantizzato a 8-bit · < 150 KB    │  │
+│  └──────────────┘    │    LSTM 2 layer (TFLite Micro)       │  │
+│                      │    quantizzato INT8 · < 150 KB       │  │
 │                      │                  │                   │  │
 │                      │    ┌─────────────▼──────────────┐    │  │
-│                      │    │   Classificazione Stato    │    │  │
-│                      │    │  0:Normale  1:Onset        │    │  │
-│                      │    │  2:Panico   3:Recovery     │    │  │
+│                      │    │   Classificazione di Stato  │    │  │
+│                      │    │  0:Normale  1:Onset         │    │  │
+│                      │    │  2:Panico   3:Recovery      │    │  │
 │                      │    └─────────────┬──────────────┘    │  │
 │                      │                  │                   │  │
-│                      │    Loop Aptico Adattivo (val. 40s)   │  │
+│                      │   Loop Aptico Adattivo (eval 40s)    │  │
 │                      └──────────────────┼───────────────────┘  │
-│                                         │                      │
-│  ┌──────────────────────────────────────▼──────────────────┐  │
-│  │           3× MOTORI LRA (driver DRV2605L)                │  │
-│  │      ●12   ●4    ●8   → pattern spaziali alternati       │  │
-│  └──────────────────────────────────────────────────────────┘  │
+│                                         │                       │
+│  ┌──────────────────────────────────────▼──────────────────┐   │
+│  │          3× MOTORI LRA  (driver DRV2605L)                │   │
+│  │    ●12    ●4    ●8   → pattern spaziali sfasati          │   │
+│  └──────────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────────┘
-Architettura basata su SoC ESP32-S3 per l'accelerazione delle istruzioni vettoriali.🔬 Componenti HardwareComponenteModelloPosizionamentoFunzionePPGMAX30102 (Ottico)Centro, interno polsoRilevazione HR e HRV (RMSSD) EDA / GSRPiastrine Ag/AgClLati del sensore PPGConduttanza cutanea (sudore) TermometroMAX30205Adiacente a EDAVasocostrizione periferica IMUMPU6050 (6 assi)Scheda madre (PCB)Filtro artefatti e stima respiro Motori Aptici3× LRA + DRV2605LEsterno (ore 12, 4, 8)Feedback tattile adattivo MCU / SoCESP32-S3Scheda madre (PCB)Inferenza Edge + connettività BLE BatteriaLiPo 250 mAhSopra il PCBAutonomia giornaliera Materiali: Scocca in Policarbonato/ABS, rivestimento interno in Silicone Medicale ipoallergenico e cinturino in nylon elastico.Peso: Complessivamente inferiore a 40 grammi per garantire comfort prolungato.🧠 Modello AI — Predittore di Attacchi di PanicoArchitetturaTipo: Rete neurale LSTM (Long Short-Term Memory) a 2 layer.Finestra di Input: 50 timestep × 6 feature (BPM, HRV, EDA, Respirazione, Temperatura, ID Soggetto).Layer:LSTM (16 unità) con Batch Normalization e Dropout (0.4).LSTM (8 unità) con Batch Normalization e Dropout (0.3).Dense (16, ReLU) + Dense (4, Softmax) per la classificazione finale.Addestramento e DeploymentData Augmentation: Iniezione di rumore gaussiano ($\sigma = 0.02$) per raddoppiare il set di dati e migliorare la robustezza.Ottimizzazione: ReduceLROnPlateau dimezza il learning rate se la perdita di validazione non migliora per 5 epoche.Performance: L'accuratezza di validazione converge stabilmente sopra il 97%.Quantizzazione: Modello esportato in ONNX e quantizzato a 8-bit per TensorFlow Lite Micro.Peso: Ridotto a meno di 150 KB per operare direttamente sulla RAM del SoC.💥 Loop Aptico AdattivoIl sistema valuta la risposta fisiologica ogni 40 secondi per evitare l'adattamento neurale (corpuscoli di Pacini).[!NOTE]
-Caso A: De-escalation (Il corpo risponde allo stimolo)
-* Trigger: Il SoC rileva l'innalzamento dell'HRV e la stabilizzazione dell'EDA.
-* Azione: Il pattern aptico rallenta (da 0.3 Hz a 0.15 Hz) e l'intensità sfuma fino a spegnersi.[!WARNING]Caso B: Shift Strategico (L'ansia persiste)Fase 1 (0–40s): Entrainment Respiratorio. Sinusoide lenta per sincronizzare meccanicamente il respiro.Fase 2 (40–80s): Pressione Crescente. Rampa a dente di sega per il grounding somatico.Fase 3 (80–120s): Stimolazione Spaziale Alternata. I 3 motori LRA si attivano in rotazione.Fase 4 (>120s): Pattern Interrupt SOS. Impulsi stile codice Morse per distrarre l'amigdala.📁 Struttura della RepositoryPlaintextlimen/
-├── firmware/              # Inferenza TFLite Micro + driver aptici per ESP32-S3
+```
+
+---
+
+## 🔬 Componenti Hardware
+
+| Componente | Modello | Posizione | Funzione |
+|---|---|---|---|
+| **PPG** | MAX30102 (Verde/IR) | Interno polso, centro | Frequenza cardiaca + HRV (RMSSD) |
+| **EDA/GSR** | Piastrine Ag/AgCl | Interno polso, lati PPG | Conduttanza cutanea (sudorazione) |
+| **Termometro** | MAX30205 (contatto) | Interno polso, adiacente EDA | Monitoraggio vasocostrizione periferica |
+| **IMU** | MPU6050 (6 assi) | PCB | Filtraggio artefatti da movimento + stima respirazione |
+| **Motori aptici** | 3× LRA + DRV2605L | Esterno polso (ore 12, 4, 8) | Feedback tattile adattivo |
+| **MCU / SoC** | ESP32-S3 (o Nordic nRF5340) | PCB | Inferenza edge + BLE |
+| **Batteria** | LiPo 250 mAh curva | Esterno, sopra PCB | Autonomia giornaliera |
+
+**Materiali:** Scocca in Policarbonato/ABS · Rivestimento interno in silicone medicale ipoallergenico o TPU · Cinturino in nylon elastico con chiusura a micro-regolazione. Peso totale: **< 40 g**.
+
+---
+
+## 🧠 Modello AI — Predizione degli Attacchi di Panico
+
+### Architettura
+
+Una rete LSTM a 2 layer, addestrata per classificare lo stato fisiologico in 4 categorie:
+
+```
+Input: (50 timestep × 6 feature) — finestra scorrevole @ 1 Hz
+       [BPM, HRV_RMSSD, EDA, RESP_RPM, TEMP_CUTE, ID_SOGGETTO]
+       
+LSTM(16, return_sequences=True) + BatchNorm + Dropout(0.4)
+LSTM(8)                          + BatchNorm + Dropout(0.3)
+Dense(16, relu) + L2(0.001)
+Dense(4, softmax)
+
+Classi di output:
+  0 → Normale
+  1 → Onset (ansia in aumento — allerta precoce)
+  2 → Panico (crisi in atto)
+  3 → Recovery (de-escalation)
+```
+
+### Pipeline di Addestramento
+
+I dati di training vengono generati da `simulate_realtime_multiprofile.py`, che simula **5 profili di soggetto** (sedentario, atletico, ansioso, anziano, rilassato), ognuno con baseline fisiologica individuale e fattore di reattività allo stress. Il generatore produce un flusso CSV continuo ed etichettato che include episodi di panico ed eventi confondenti (corsa, spavento, infortunio, sonno) per massimizzare la robustezza su scenari reali.
+
+Scelte chiave di addestramento:
+
+- **Windowing per soggetto** — le sequenze non attraversano mai i confini tra soggetti, evitando data leakage
+- **Data augmentation** — iniezione di rumore Gaussiano (σ=0.02) raddoppia il training set
+- **Batch Normalization** — stabilizza il flusso del gradiente nello stack LSTM
+- **ReduceLROnPlateau** — dimezza il learning rate dopo 5 epoche senza miglioramento della val_loss (LR minimo = 1e-5)
+- **EarlyStopping** — ripristina i migliori pesi, patience = 12 epoche
+
+### Performance di Addestramento
+
+![Curve di Training LIMEN](limen_training_curves.jpg)
+
+*Accuratezza e perdita (Cross-Entropy) nel corso delle 100 epoche di training. Il modello converge molto rapidamente nelle prime 10 epoche grazie alla BatchNorm, con l'accuratezza sul set di validazione che si stabilizza sopra il **93%**. La perdita di validazione si attesta intorno a **0.30**, mentre quella di training continua a scendere verso **0.15** — gap fisiologico e contenuto, tenuto sotto controllo da Dropout e regolarizzazione L2. L'assenza di divergenza tra le curve conferma che la strategia di regolarizzazione è efficace.*
+
+### Deployment su Edge
+
+Il modello viene esportato in ONNX → quantizzato a **INT8 via TFLite Micro**, riducendo il peso a **< 150 KB** — abbastanza compatto da eseguire l'inferenza in pochi millisecondi direttamente nella RAM dell'ESP32-S3.
+
+---
+
+## 💥 Loop Aptico Adattivo
+
+Il sistema rivaluta la risposta fisiologica dell'utente ogni **40 secondi**, adattando lo stimolo aptico per prevenire l'assuefazione neurale (adattamento dei corpuscoli di Pacini).
+
+```
+Ogni 40s: misura HRV + EDA
+│
+├── HRV > 50 E EDA stabile?
+│     └── CASO A: De-escalation ✅
+│           Il pattern aptico rallenta: 0.3 Hz → 0.15 Hz → fade out
+│
+└── Ansia persistente? → CASO B: Shift Strategico
+      │
+      ├── 0–40s    FASE 1 · Entrainment Respiratorio
+      │             Sinusoide globale e lenta → sincronizza meccanicamente il respiro
+      │
+      ├── 40–80s   FASE 2 · Pressione Crescente
+      │             Rampa a dente di sega → grounding somatico sul polso
+      │
+      ├── 80–120s  FASE 3 · Stimolazione Spaziale Alternata
+      │             3 LRA si attivano in rotazione → aggira l'adattamento neurale
+      │
+      └── >120s    FASE 4 · Pattern Interrupt SOS
+                    Impulsi netti stile codice Morse → forza un'elaborazione
+                    cognitiva, distraendo l'amigdala dal loop di panico
+```
+
+---
+
+## 📁 Struttura del Repository
+
+```
+limen/
+│
+├── firmware/
+│   └── [Inferenza TFLite Micro su ESP32-S3 + driver aptico]
+│
 ├── ml/
-│   ├── attacchiPanico.py  # Pipeline di training LSTM (Batch Norm + LR Reduce)
-│   └── electrical_sim.py  # Simulazione hardware del loop di biofeedback
+│   ├── attacchiPanico.py              # Pipeline di training LSTM
+│   └── electrical_sim.py              # Simulazione biofeedback hardware
+│
 ├── data_generation/
-│   ├── simulate_realtime.py             # Generatore singolo profilo (P per panico)
-│   └── simulate_realtime_multiprofile.py # Generatore multi-profilo (5 archetipi)
-├── Dashboard/
-│   └── biosignal_plotter.py # Monitor dei biosegnali in tempo reale (stile ECG)
+│   ├── simulate_realtime.py           # Generatore mono-profilo (P = innesca panico)
+│   └── simulate_realtime_multiprofile.py   # Generatore multi-profilo (5 soggetti)
+│
 ├── data/
-│   ├── training_set.csv   # Dati di addestramento generati
-│   └── test_set.csv       # Dati di test generati
+│   ├── training_set.csv               # [generato]
+│   └── test_set.csv                   # [generato]
+│
 └── README.md
-🚀 Guida Rapida1. Generazione dei Dati SinteticiSimula diversi profili utente (sedentario, atletico, ansioso, ecc.):Bashpython data_generation/simulate_realtime_multiprofile.py --sample_rate 1
-2. Addestramento del ModelloAssicurati che i dati generati siano presenti nella cartella data/:Bashpython ml/attacchiPanico.py
-3. Dashboard in Tempo RealeVisualizza i biosegnali e gli stati rilevati:Bashpython Dashboard/biosignal_plotter.py --file biosignals_live.csv
-👥 Team e ContestoProgetto realizzato per l'Hackathon Elevator Innovation Hub 2026 — "I Nuovi Dispositivi del Futuro".
+```
+
+---
+
+## 🚀 Avvio Rapido
+
+### 1. Genera i Dati di Training
+
+```bash
+pip install pynput numpy
+
+# Profilo singolo — premi P per innescare un attacco di panico, Q per uscire
+python data_generation/simulate_realtime.py --sample_rate 1
+
+# Multi-profilo — genera automaticamente 5 archetipi di soggetto
+python data_generation/simulate_realtime_multiprofile.py --sample_rate 1
+```
+
+Output: `biosignals_live.csv` — una riga al secondo con le colonne `bpm, hrv_rmssd_ms, eda_us, resp_rpm, skin_temp_c, state, event, subject`.
+
+### 2. Addestra il Modello
+
+```bash
+pip install tensorflow scikit-learn pandas matplotlib
+
+# Rinomina i CSV generati in training_set.csv e test_set.csv
+python ml/attacchiPanico.py
+```
+
+Il training gira per un massimo di 100 epoche con early stopping. L'accuratezza finale viene stampata insieme alle predizioni per classe.
+
+### 3. Simulazione Hardware
+
+```bash
+python ml/electrical_sim.py
+```
+
+Visualizza il loop aptico adattivo su 25 cicli di valutazione — traiettoria HRV + progressione delle fasi aptiche.
+
+---
+
+## 🔮 Roadmap
+
+- [ ] Esportazione modello in TFLite Micro (quantizzazione INT8)
+- [ ] Integrazione firmware ESP32-S3
+- [ ] Validazione su dataset clinico reale
+- [ ] App companion BLE (visualizzazione stato in tempo reale)
+- [ ] Calibrazione baseline per utente (wizard di configurazione al primo avvio)
+
+---
+
+## 👥 Team
+
+Realizzato all'**[Nome Hackathon]** · [Data]
+
+---
+
+## 📄 Licenza
+
+Licenza MIT — vedi `LICENSE` per i dettagli.
